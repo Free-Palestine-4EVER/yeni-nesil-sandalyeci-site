@@ -1,0 +1,68 @@
+---
+import { business } from "../data/facts";
+
+interface Props {
+  lang: "en" | "ar";
+}
+const { lang } = Astro.props as Props;
+const isAr = lang === "ar";
+---
+
+<footer class="footer">
+  <div class="container footer-inner">
+    <div>
+      <p class="footer-brand">{business.name}</p>
+      <p class="footer-address">{business.addressText}</p>
+    </div>
+    <div class="footer-links">
+      <a href={business.instagram} target="_blank" rel="noopener">Instagram</a>
+      <a href={business.website} target="_blank" rel="noopener">{isAr ? "الموقع الإلكتروني" : "Website"}</a>
+    </div>
+  </div>
+</footer>
+
+<style>
+  .footer {
+    padding-block: clamp(2.5rem, 4vw, 3.5rem);
+    background: var(--accent-2);
+    color: color-mix(in srgb, var(--bg) 80%, transparent);
+  }
+
+  .footer-inner {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 1.5rem;
+    font-size: var(--step-small);
+  }
+
+  .footer-brand {
+    font-family: var(--font-display);
+    font-weight: 700;
+    color: var(--bg);
+    margin-bottom: 0.35rem;
+  }
+
+  [dir="rtl"] .footer-brand {
+    font-family: var(--font-ar);
+  }
+
+  .footer-address {
+    max-width: 42ch;
+  }
+
+  .footer-links {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .footer-links a {
+    text-decoration: none;
+    color: color-mix(in srgb, var(--bg) 85%, transparent);
+  }
+
+  .footer-links a:hover {
+    color: var(--accent);
+  }
+</style>

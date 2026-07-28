@@ -1,0 +1,175 @@
+---
+interface Props {
+  lang: "en" | "ar";
+}
+const { lang } = Astro.props as Props;
+const isAr = lang === "ar";
+
+const items = [
+  {
+    en: { title: "Chairs", desc: "Dining and lounge chairs built for cafés, restaurants and hotels." },
+    ar: { title: "الكراسي", desc: "كراسي طعام وصالة مصنّعة للمقاهي والمطاعم والفنادق." },
+  },
+  {
+    en: { title: "Tables", desc: "Project and bulk table supply, matched to your venue's layout." },
+    ar: { title: "الطاولات", desc: "توريد طاولات للمشاريع وبالجملة، متناسقة مع تصميم مكانك." },
+  },
+  {
+    en: { title: "Stainless Steel Stools", desc: "Minimal design, maximum durability — built for high-traffic use." },
+    ar: { title: "مقاعد استانلس ستيل", desc: "تصميم بسيط ومتانة قصوى — مصممة للاستخدام الكثيف." },
+  },
+  {
+    en: { title: "Custom Bar Chairs", desc: "Hand-crafted, named pieces like LEO — a focal point, not filler." },
+    ar: { title: "كراسي بار مخصصة", desc: "قطع مصنوعة يدويًا مثل LEO — محور اهتمام، لا مجرد أثاث ثانوي." },
+  },
+  {
+    en: { title: "Corporate & Bulk Orders", desc: "Contract pricing and production runs for corporate and individual bulk purchases." },
+    ar: { title: "طلبات الجملة والشركات", desc: "أسعار تعاقدية ودفعات إنتاج لطلبات الجملة للشركات والأفراد." },
+  },
+  {
+    en: { title: "Booth & Banquette Seating", desc: "Fitted booth and banquette runs for dine-in floor plans." },
+    ar: { title: "مقاعد البوث والبانكيت", desc: "تجهيز مقاعد بوث وبانكيت متناسبة مع مخطط الصالة." },
+  },
+  {
+    en: { title: "Lounge & Hookah-Area Furniture", desc: "Low seating and side tables built for lounge and shisha areas." },
+    ar: { title: "أثاث الصالات والأراكيل", desc: "مقاعد منخفضة وطاولات جانبية لمناطق الجلوس والأراكيل." },
+  },
+  {
+    en: { title: "Custom Upholstery & Fabric", desc: "Fabric and finish selection matched to your venue's identity." },
+    ar: { title: "التنجيد والأقمشة المخصصة", desc: "اختيار أقمشة وتشطيبات متناسقة مع هوية مكانك." },
+  },
+  {
+    en: { title: "Outdoor & Terrace Furniture", desc: "Weather-ready seating for terraces and outdoor dining areas." },
+    ar: { title: "أثاث خارجي وتراس", desc: "مقاعد مقاومة للعوامل الجوية للتراسات ومناطق الجلوس الخارجية." },
+  },
+];
+---
+
+<section class="offering" id="offering">
+  <div class="container offering-head">
+    <p class="eyebrow" data-reveal>{isAr ? "نطاق المنتجات" : "The range"}</p>
+    <h2 class="h-section" data-reveal>
+      {isAr ? "من الفكرة إلى القطعة المسلَّمة" : "From raw material to finished piece"}
+    </h2>
+    <p class="offering-note" data-reveal>
+      {isAr ? "للأسعار والتوفر الحالي، تواصلوا معنا مباشرة." : "Ask us for current pricing and availability."}
+    </p>
+  </div>
+  <div class="deck">
+    {items.map((item, i) => (
+      <div class="deck-card" style={`--i:${i}`}>
+        <div class="deck-card-inner">
+          <span class="deck-index">{String(i + 1).padStart(2, "0")}</span>
+          <h3>{isAr ? item.ar.title : item.en.title}</h3>
+          <p>{isAr ? item.ar.desc : item.en.desc}</p>
+        </div>
+      </div>
+    ))}
+  </div>
+</section>
+
+<style>
+  .offering {
+    padding-block: clamp(4rem, 7vw, 7rem) 0;
+    background: var(--surface);
+  }
+
+  .offering-head {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    padding-bottom: clamp(2rem, 4vw, 3rem);
+    max-width: 60ch;
+  }
+
+  .offering-note {
+    font-size: var(--step-small);
+    color: color-mix(in srgb, var(--text) 60%, transparent);
+  }
+
+  .deck {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .deck-card {
+    position: sticky;
+    top: 4.5rem;
+    padding-block: 1.5rem;
+  }
+
+  .deck-card-inner {
+    max-width: var(--container);
+    margin-inline: auto;
+    background: var(--bg);
+    border-radius: 20px;
+    padding: clamp(1.75rem, 4vw, 3rem);
+    box-shadow: 0 24px 60px -30px rgba(28, 27, 25, 0.4);
+    border: 1px solid color-mix(in srgb, var(--text) 8%, transparent);
+    transition: transform 0.4s ease, box-shadow 0.4s ease;
+    transform-style: preserve-3d;
+  }
+
+  .deck-card-inner:hover {
+    box-shadow: 0 32px 70px -28px rgba(181, 101, 46, 0.45);
+  }
+
+  .deck-index {
+    font-family: var(--font-display);
+    font-size: var(--step-h3);
+    font-weight: 900;
+    color: color-mix(in srgb, var(--accent) 55%, transparent);
+  }
+
+  .deck-card-inner h3 {
+    font-size: var(--step-h3);
+    margin-block: 0.4rem 0.5rem;
+  }
+
+  .deck-card-inner p {
+    color: color-mix(in srgb, var(--text) 70%, transparent);
+    max-width: 55ch;
+  }
+</style>
+
+<script>
+  import { animate, inView, stagger } from "motion";
+
+  const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  inView(".offering-head", () => {
+    animate(
+      ".offering-head [data-reveal]",
+      { opacity: [0, 1], y: [reduceMotion ? 6 : 18, 0] },
+      { duration: reduceMotion ? 0.25 : 0.6, delay: stagger(reduceMotion ? 0.03 : 0.1), easing: "ease-out" }
+    );
+  });
+
+  const cards = document.querySelectorAll<HTMLElement>(".deck-card-inner");
+  inView(
+    ".deck",
+    () => {
+      animate(
+        Array.from(cards),
+        { opacity: [0, 1], y: [reduceMotion ? 8 : 40, 0] },
+        { duration: reduceMotion ? 0.25 : 0.7, delay: stagger(reduceMotion ? 0.02 : 0.08), easing: "ease-out" }
+      );
+    },
+    { margin: "0px 0px -60% 0px" }
+  );
+
+  const hasFinePointer = window.matchMedia("(hover: hover) and (pointer: fine)").matches;
+  if (hasFinePointer && !reduceMotion) {
+    cards.forEach((card) => {
+      card.addEventListener("mousemove", (e) => {
+        const rect = card.getBoundingClientRect();
+        const rx = ((e.clientY - rect.top) / rect.height - 0.5) * -6;
+        const ry = ((e.clientX - rect.left) / rect.width - 0.5) * 6;
+        animate(card, { rotateX: rx, rotateY: ry }, { duration: 0.3, easing: "ease-out" });
+      });
+      card.addEventListener("mouseleave", () => {
+        animate(card, { rotateX: 0, rotateY: 0 }, { duration: 0.4, easing: "ease-out" });
+      });
+    });
+  }
+</script>

@@ -1,0 +1,165 @@
+---
+import { business } from "../data/facts";
+
+interface Props {
+  lang: "en" | "ar";
+}
+const { lang } = Astro.props as Props;
+const base = import.meta.env.BASE_URL;
+const isAr = lang === "ar";
+
+const links = isAr
+  ? [
+      { href: "#about", label: "عنّا" },
+      { href: "#offering", label: "المنتجات" },
+      { href: "#gallery", label: "المعرض" },
+      { href: "#contact", label: "تواصل" },
+    ]
+  : [
+      { href: "#about", label: "About" },
+      { href: "#offering", label: "Range" },
+      { href: "#gallery", label: "Gallery" },
+      { href: "#contact", label: "Contact" },
+    ];
+---
+
+<header class="nav" data-nav>
+  <div class="nav-inner container">
+    <a class="brand" href={`${base}${lang}/`}>{business.name}</a>
+    <nav class="links" aria-label={isAr ? "التنقل الرئيسي" : "Main navigation"}>
+      {links.map((l) => (
+        <a href={l.href} class="nav-link" data-nav-link>{l.label}</a>
+      ))}
+    </nav>
+    <a
+      class="lang-switch"
+      href={isAr ? `${base}en/` : `${base}ar/`}
+      data-lang-switch
+    >
+      {isAr ? "EN" : "AR"}
+    </a>
+  </div>
+</header>
+
+<style>
+  .nav {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: color-mix(in srgb, var(--bg) 88%, transparent);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid color-mix(in srgb, var(--text) 10%, transparent);
+  }
+
+  .nav-inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    padding-block: 0.85rem;
+  }
+
+  .brand {
+    font-family: var(--font-display);
+    font-weight: 900;
+    font-size: 1rem;
+    letter-spacing: 0.04em;
+    text-decoration: none;
+    color: var(--text);
+  }
+
+  [dir="rtl"] .brand {
+    font-family: var(--font-ar);
+  }
+
+  .links {
+    display: none;
+    gap: 1.75rem;
+  }
+
+  @media (min-width: 760px) {
+    .links {
+      display: flex;
+    }
+  }
+
+  .nav-link {
+    position: relative;
+    text-decoration: none;
+    color: var(--text);
+    font-size: var(--step-small);
+    font-weight: 600;
+    padding-block: 0.25rem;
+  }
+
+  .nav-link::after {
+    content: "";
+    position: absolute;
+    inset-inline-start: 0;
+    bottom: 0;
+    height: 2px;
+    width: 100%;
+    background: var(--accent);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.3s ease;
+  }
+
+  [dir="rtl"] .nav-link::after {
+    transform-origin: right;
+  }
+
+  .nav-link:hover::after,
+  .nav-link.active::after {
+    transform: scaleX(1);
+  }
+
+  .lang-switch {
+    border: 1px solid var(--text);
+    border-radius: 999px;
+    padding: 0.4em 0.9em;
+    font-size: var(--step-small);
+    font-weight: 700;
+    text-decoration: none;
+    color: var(--text);
+    min-height: 44px;
+    display: inline-flex;
+    align-items: center;
+    transition: background 0.25s ease, color 0.25s ease;
+  }
+
+  .lang-switch:hover {
+    background: var(--text);
+    color: var(--bg);
+  }
+</style>
+
+<script>
+  import { inView } from "motion";
+
+  const sections = Array.from(document.querySelectorAll<HTMLElement>("main > section[id]"));
+  const links = Array.from(document.querySelectorAll<HTMLAnchorElement>("[data-nav-link]"));
+
+  function setActive(id: string) {
+    links.forEach((l) => {
+      const match = l.getAttribute("href") === `#${id}`;
+      l.classList.toggle("active", match);
+    });
+  }
+
+  sections.forEach((section) => {
+    inView(
+      section,
+      () => {
+        setActive(section.id);
+      },
+      { margin: "-45% 0px -45% 0px" }
+    );
+  });
+
+  const langSwitch = document.querySelector<HTMLAnchorElement>("[data-lang-switch]");
+  langSwitch?.addEventListener("click", () => {
+    const nextLang = langSwitch.textContent?.trim().toLowerCase() === "ar" ? "ar" : "en";
+    localStorage.setItem("preferredLang", nextLang);
+  });
+</script>

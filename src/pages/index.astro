@@ -1,0 +1,32 @@
+---
+import { business } from "../data/facts";
+
+const base = import.meta.env.BASE_URL;
+const arHref = `${base}ar/`;
+const enHref = `${base}en/`;
+---
+
+<!doctype html>
+<html lang="ar" dir="rtl">
+  <head>
+    <meta charset="utf-8" />
+    <link rel="icon" type="image/svg+xml" href={`${base}favicon.svg`} />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{business.name}</title>
+    <meta http-equiv="refresh" content={`0; url=${arHref}`} />
+    <script define:vars={{ arHref, enHref }} is:inline>
+      var preferred = null;
+      try {
+        preferred = localStorage.getItem("preferredLang");
+      } catch (e) {}
+      window.location.replace(preferred === "en" ? enHref : arHref);
+    </script>
+  </head>
+  <body>
+    <noscript>
+      <p>
+        <a href={arHref}>العربية</a> · <a href={enHref}>English</a>
+      </p>
+    </noscript>
+  </body>
+</html>
