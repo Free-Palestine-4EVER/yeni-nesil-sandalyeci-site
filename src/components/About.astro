@@ -11,12 +11,12 @@ const isAr = lang === "ar";
 
 <section class="about" id="about">
   <div class="about-grid container">
-    <div class="about-portrait" data-reveal>
+    <div class="about-badge" data-reveal>
       <Image
         src={photos.profile}
-        alt={isAr ? "الصورة الرمزية لحساب ييني نسل صندلیجي على إنستغرام" : "YENİ NESİL SANDALYECİ's Instagram profile portrait"}
-        width={480}
-        height={480}
+        alt={isAr ? "شعار ديبوسان — DEPOSAN chair | table | project" : "The DEPOSAN chair | table | project wordmark"}
+        width={320}
+        height={320}
         loading="lazy"
         format="webp"
       />
@@ -60,11 +60,18 @@ const isAr = lang === "ar";
     }
   }
 
-  .about-portrait :global(img) {
-    border-radius: 50%;
+  .about-badge {
+    display: flex;
+    justify-content: center;
+  }
+
+  .about-badge :global(img) {
+    border-radius: 14px;
     aspect-ratio: 1;
-    object-fit: cover;
-    width: min(280px, 60vw);
+    object-fit: contain;
+    background: #fff;
+    padding: 1.5rem;
+    width: min(180px, 45vw);
     box-shadow: 0 20px 60px -20px rgba(42, 35, 32, 0.35);
   }
 

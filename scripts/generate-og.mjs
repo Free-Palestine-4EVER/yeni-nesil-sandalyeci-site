@@ -11,7 +11,7 @@ const ACCENT = "#b5652e";
 const ACCENT_DARK = "#1c1b19";
 
 async function main() {
-  const sourcePath = path.join(root, "photos", "post-04.jpg");
+  const sourcePath = path.join(root, "photos", "post-09.jpg");
 
   const base = await sharp(sourcePath)
     .resize(WIDTH, HEIGHT, { fit: "cover" })
