@@ -10,76 +10,70 @@ const isAr = lang === "ar";
 ---
 
 <section class="about" id="about">
-  <div class="about-grid container">
-    <div class="about-badge" data-reveal>
-      <Image
-        src={photos.profile}
-        alt={isAr ? "شعار ديبوسان — DEPOSAN chair | table | project" : "The DEPOSAN chair | table | project wordmark"}
-        width={320}
-        height={320}
-        loading="lazy"
-        format="webp"
-      />
-    </div>
-    <div class="about-copy">
-      <p class="eyebrow" data-reveal>{isAr ? "قصتنا" : "About us"}</p>
-      <blockquote class="pull-quote" data-reveal>
-        {isAr ? (
-          <>
-            <span class="drop-cap">م</span>صنّعون تعاقديون للأثاث — نصمّم وننتج الكراسي والطاولات والمقاعد للمقاهي والمطاعم والفنادق، من المواد الخام إلى القطعة النهائية المسلَّمة.
-          </>
-        ) : (
-          <>
-            <span class="drop-cap">C</span>ontract furniture manufacturer — we design and produce chairs, tables and stools for cafés, restaurants and hotels, from raw material to the finished, delivered piece.
-          </>
-        )}
-      </blockquote>
-      <p class="about-detail" data-reveal>
-        {isAr
-          ? "المصنع والصالة: حي الشريفلي، شارع طورغوت أوزال، 199/5، أُمرانيه، إسطنبول."
-          : "Factory & showroom: Şerifali Mahallesi, Turgut Özal Bulvarı, 199/5, Ümraniye, İstanbul."}
-      </p>
-    </div>
+  <div class="about-photo" data-reveal>
+    <Image
+      src={photos.post08}
+      alt={isAr ? "كراسي جلدية بنية بإطار كروم ومسند ظهر من الخيزران على خلفية استوديو نظيفة" : "Brown leather cantilever chairs with chrome frames and cane backrests on a clean studio background"}
+      width={1400}
+      height={1750}
+      loading="lazy"
+      format="webp"
+    />
+  </div>
+  <div class="about-copy">
+    <p class="eyebrow" data-reveal>{isAr ? "قصتنا" : "About us"}</p>
+    <blockquote class="pull-quote" data-reveal>
+      {isAr
+        ? "مصنّعون تعاقديون للأثاث — نصمّم وننتج الكراسي والطاولات والمقاعد للمقاهي والمطاعم والفنادق، من المواد الخام إلى القطعة النهائية المسلَّمة."
+        : "Contract furniture manufacturer — we design and produce chairs, tables and stools for cafés, restaurants and hotels, from raw material to the finished, delivered piece."}
+    </blockquote>
+    <p class="about-detail" data-reveal>
+      {isAr
+        ? "المصنع والصالة: حي الشريفلي، شارع طورغوت أوزال، 199/5، أُمرانيه، إسطنبول."
+        : "Factory & showroom: Şerifali Mahallesi, Turgut Özal Bulvarı, 199/5, Ümraniye, İstanbul."}
+    </p>
   </div>
 </section>
 
 <style>
   .about {
-    padding-block: clamp(4rem, 7vw, 7rem);
-  }
-
-  .about-grid {
     display: grid;
-    gap: clamp(2rem, 5vw, 4rem);
-    align-items: center;
+    background: var(--surface);
   }
 
   @media (min-width: 860px) {
-    .about-grid {
-      grid-template-columns: 0.8fr 1.2fr;
+    .about {
+      grid-template-columns: 0.85fr 1.15fr;
+      min-height: 70vh;
     }
   }
 
-  .about-badge {
-    display: flex;
-    justify-content: center;
+  .about-photo {
+    position: relative;
+    aspect-ratio: 4 / 3;
+    overflow: hidden;
   }
 
-  .about-badge :global(img) {
-    border-radius: 14px;
-    aspect-ratio: 1;
-    object-fit: contain;
-    background: #fff;
-    padding: 1.5rem;
-    width: min(180px, 45vw);
-    box-shadow: 0 20px 60px -20px rgba(42, 35, 32, 0.35);
+  @media (min-width: 860px) {
+    .about-photo {
+      aspect-ratio: auto;
+      height: 100%;
+    }
+  }
+
+  .about-photo :global(img) {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
   }
 
   .about-copy {
     display: flex;
     flex-direction: column;
-    gap: 1.5rem;
-    max-width: 56ch;
+    justify-content: center;
+    gap: 1.75rem;
+    max-width: 52ch;
+    padding: clamp(3rem, 6vw, 5rem) clamp(1.5rem, 5vw, 4rem);
   }
 
   .pull-quote {
@@ -87,20 +81,11 @@ const isAr = lang === "ar";
     font-family: var(--font-display);
     font-size: var(--step-h2);
     font-weight: 700;
-    line-height: 1.2;
+    line-height: 1.18;
   }
 
   [dir="rtl"] .pull-quote {
     font-family: var(--font-ar);
-  }
-
-  .drop-cap {
-    float: inline-start;
-    font-size: 2.2em;
-    line-height: 0.8;
-    padding-inline-end: 0.08em;
-    color: var(--accent);
-    font-weight: 900;
   }
 
   .about-detail {

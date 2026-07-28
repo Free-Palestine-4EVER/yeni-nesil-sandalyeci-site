@@ -10,11 +10,17 @@
 @import "@fontsource/ibm-plex-sans-arabic/700.css";
 
 :root {
-  --bg: #f6f1e9;
-  --surface: #eae0cf;
-  --text: #2a2320;
-  --accent: #b5652e;
-  --accent-2: #1c1b19;
+  /* Pulled from the manufacturer's own product photography — the pale
+     cool-grey studio backdrop and black-stained wood/espresso leather
+     (post-12), and the dusty burgundy leatherette (post-03) — instead of a
+     generic furniture/craft "warm cream + terracotta" palette. --bg stays
+     light and --accent-2 stays the dark ink used for alternate sections
+     (Hero/Trust/Footer already depend on that light/dark contract). */
+  --bg: #ece7df;
+  --surface: #ddd5c7;
+  --text: #201b16;
+  --accent: #a24f56;
+  --accent-2: #1c1712;
 
   --font-display: "Archivo", sans-serif;
   --font-body: "Inter", sans-serif;

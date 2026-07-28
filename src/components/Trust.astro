@@ -34,21 +34,22 @@ const prideLines = isAr
 ---
 
 <section class="trust" id="trust">
-  <div class="container trust-grid">
-    <div class="stats">
-      {stats.map((s) => (
-        <div class="stat" data-reveal>
-          <span class="stat-num" data-count-to={s.value}>0</span>
-          <span class="stat-label">{isAr ? s.ar : s.en}</span>
-        </div>
-      ))}
-      {business.isVerified && (
-        <div class="stat verified" data-reveal>
-          <span class="badge">✓</span>
-          <span class="stat-label">{isAr ? "حساب إنستغرام موثّق" : "Verified Instagram account"}</span>
-        </div>
+  <div class="container trust-inner">
+    <p class="trust-lede" data-reveal>
+      {isAr ? (
+        <>
+          أكثر من <span class="trust-num" data-count-to={stats[0].value}>0</span> يتابعون العمل الخارج من هذا المصنع
+          على إنستغرام{business.isVerified ? " — حساب موثّق" : ""}، وأكثر من{" "}
+          <span class="trust-num" data-count-to={stats[1].value}>0</span> مشروع وقطعة تمت مشاركتها حتى الآن.
+        </>
+      ) : (
+        <>
+          Over <span class="trust-num" data-count-to={stats[0].value}>0</span> people follow the work coming out of
+          this factory on Instagram{business.isVerified ? " — a verified account" : ""}, and more than{" "}
+          <span class="trust-num" data-count-to={stats[1].value}>0</span> projects and pieces shared so far.
+        </>
       )}
-    </div>
+    </p>
     <ul class="pride">
       {prideLines.map((line) => (
         <li data-reveal>{line}</li>
@@ -64,76 +65,62 @@ const prideLines = isAr
     color: var(--bg);
   }
 
-  .trust-grid {
-    display: grid;
+  .trust-inner {
+    display: flex;
+    flex-direction: column;
     gap: clamp(2.5rem, 5vw, 4rem);
   }
 
-  @media (min-width: 860px) {
-    .trust-grid {
-      grid-template-columns: 1.1fr 0.9fr;
-    }
-  }
-
-  .stats {
-    display: flex;
-    flex-wrap: wrap;
-    gap: clamp(2rem, 4vw, 3.5rem);
-  }
-
-  .stat {
-    display: flex;
-    flex-direction: column;
-    gap: 0.25rem;
-  }
-
-  .stat-num {
+  .trust-lede {
     font-family: var(--font-display);
+    font-weight: 500;
+    font-size: var(--step-h2);
+    line-height: 1.25;
+    max-width: 34ch;
+  }
+
+  [dir="rtl"] .trust-lede {
+    font-family: var(--font-ar);
+    max-width: 28ch;
+  }
+
+  .trust-num {
     font-weight: 900;
-    font-size: clamp(2.5rem, 6vw, 4.5rem);
     color: var(--accent);
     font-variant-numeric: tabular-nums;
-  }
-
-  .stat-label {
-    font-size: var(--step-small);
-    color: color-mix(in srgb, var(--bg) 75%, transparent);
-    max-width: 20ch;
-  }
-
-  .verified {
-    flex-direction: row;
-    align-items: center;
-    gap: 0.75rem;
-  }
-
-  .badge {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    width: 2rem;
-    height: 2rem;
-    border-radius: 50%;
-    background: var(--accent);
-    color: var(--accent-2);
-    font-weight: 900;
   }
 
   .pride {
     list-style: none;
     margin: 0;
     padding: 0;
-    display: flex;
-    flex-direction: column;
-    gap: 1.1rem;
-    border-inline-start: 2px solid var(--accent);
-    padding-inline-start: 1.25rem;
+    display: grid;
+    gap: clamp(1.5rem, 3vw, 2.5rem);
+  }
+
+  @media (min-width: 720px) {
+    .pride {
+      grid-template-columns: repeat(3, 1fr);
+    }
   }
 
   .pride li {
+    position: relative;
     font-weight: 300;
     font-size: var(--step-body);
     color: color-mix(in srgb, var(--bg) 90%, transparent);
+    padding-top: 1.1rem;
+  }
+
+  .pride li::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    inset-inline-start: 0;
+    width: 2.5rem;
+    height: 3px;
+    background: var(--accent);
+    border-radius: 2px;
   }
 </style>
 
@@ -142,7 +129,7 @@ const prideLines = isAr
 
   const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
-  inView(".trust-grid", () => {
+  inView(".trust-inner", () => {
     animate(
       ".trust [data-reveal]",
       { opacity: [0, 1], y: [reduceMotion ? 6 : 18, 0] },
@@ -156,7 +143,12 @@ const prideLines = isAr
         duration: reduceMotion ? 0.25 : 1.6,
         easing: "ease-out",
         onUpdate: (latest) => {
-          el.textContent = Math.round(latest.value).toLocaleString("en-US") + "+";
+          // Motion's onUpdate for a plain-object animation hands back the
+          // raw interpolated number itself, not a {value: number} wrapper —
+          // reading latest.value here was always undefined (NaN once
+          // rounded). This exact wrong-return-value assumption is called
+          // out in the build prompt now specifically because of this bug.
+          el.textContent = Math.round(latest).toLocaleString("en-US") + "+";
         },
       });
     });
