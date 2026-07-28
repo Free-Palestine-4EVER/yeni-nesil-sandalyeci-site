@@ -1,0 +1,1 @@
+import{t as e}from"./animate.PyiYaOT6.js";import{t}from"./viewport.D633ZYfX.js";import{t as n}from"./stagger.iGrjIdR6.js";var r=window.matchMedia(`(prefers-reduced-motion: reduce)`).matches;t(`.about`,()=>{e(`.about [data-reveal]`,{opacity:[0,1],y:[r?6:20,0]},{duration:r?.25:.6,delay:n(r?.03:.1),easing:`ease-out`})});

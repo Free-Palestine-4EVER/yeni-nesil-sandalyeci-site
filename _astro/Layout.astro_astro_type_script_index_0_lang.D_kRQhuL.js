@@ -1,0 +1,1 @@
+import{t as e}from"./animate.PyiYaOT6.js";import{t}from"./scroll.CPwco8W-.js";var n=document.querySelector(`[data-progress-bar]`);n&&t(e(n,{scaleX:[0,1]},{easing:`linear`}));
